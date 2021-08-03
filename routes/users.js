@@ -3,7 +3,7 @@ const app=express()
 const router=express.Router()
 const db=require("../config/database")
 
-
+const security=require('../core/security/hashPassword')
 const User=require("../models/user")
 
 router.get('/',(req,res)=>User.findAll()
@@ -24,8 +24,10 @@ User.findByPk(id)
 
 
 router.post('/add',async(req,res)=>{
-    const user=User.create({email:req.body.email,password:req.body.password})
+    const password=await security.hashPass(req.body.password)
+    const user=User.create({email:req.body.email,password:password})
     await user.save
+    res.send('işlem başarılı')
     
 })
 module.exports=router;

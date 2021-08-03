@@ -12,4 +12,5 @@ const User=db.define('users',{
     }
 })
 
+
 module.exports=User
